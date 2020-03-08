@@ -5,6 +5,7 @@
 //  Created by Petr Zvoníček on 30.07.15.
 //
 
+import UIKit
 import AFNetworking
 
 /// Input Source to image using AFNetworking
@@ -41,8 +42,12 @@ public class AFURLSource: NSObject, InputSource {
     public func load(to imageView: UIImageView, with callback: @escaping (UIImage?) -> Void) {
         imageView.setImageWith(URLRequest(url: url), placeholderImage: self.placeholder, success: { (_, _, image: UIImage) in
             callback(image)
-        }, failure: { _, _, _ in
-            callback(nil)
+        }, failure: {[placeholder = self.placeholder] _, _, _ in
+            callback(placeholder)
         })
+    }
+    
+    public func cancelLoad(on imageView: UIImageView) {
+        imageView.cancelImageDownloadTask()
     }
 }

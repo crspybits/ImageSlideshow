@@ -6,6 +6,10 @@
 //
 //
 
+import UIKit
+#if SWIFT_PACKAGE
+import ImageSlideshow
+#endif
 import SDWebImage
 
 /// Input Source to image using SDWebImage
@@ -43,5 +47,9 @@ public class SDWebImageSource: NSObject, InputSource {
         imageView.sd_setImage(with: self.url, placeholderImage: self.placeholder, options: [], completed: { (image, _, _, _) in
             callback(image)
         })
+    }
+    
+    public func cancelLoad(on imageView: UIImageView) {
+        imageView.sd_cancelCurrentImageLoad()
     }
 }
